@@ -1,4 +1,4 @@
-# creating random string for the filename 
+# Create random string for the filename 
 class RandomFileName
   
   NUMBERS = (1..9).to_a

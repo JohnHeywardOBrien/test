@@ -1,5 +1,4 @@
-require 'json'
-
+# Create partially random JSON data
 class RandomJson
 
   attr_reader :version, :build, :tested, :notes
@@ -11,7 +10,7 @@ class RandomJson
     @notes   = random_string
   end
   
-  # defining my own to_s to format in to desired json output
+  # Defining my own to_json in my desired output
   def to_json
     JSON.generate({
       'version' => self.version,

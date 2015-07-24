@@ -1,5 +1,5 @@
-# creates random, protected, GUID
-# will be used upon copy/mv
+# Create random, protected, GUID
+# Will be used upon copy/mv
 class FileNametoGUID
   
   def filename

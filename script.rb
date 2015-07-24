@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# built using Ruby 2.2.1
+# Built using Ruby 2.2.1
 
 # chmod +x to run this in your local directory
 
@@ -13,37 +13,37 @@ require './Models/RandomFileName'
 require './Models/FileNametoGUID'
 
 
-
+puts "Starting creation of folders..."
 DIR_NAMES = %w[Original Modified]
 DIR_NAMES.each do |dname|
   if File.exists?(dname)
-    abort("The specified folders already exist. 
-           No further action will be taken.")
+    abort("The specified folders already exist. No further action will be taken.")
   else
     Dir.mkdir(dname)
-    puts "Starting creation of folders"
   end
 end
+puts "Folders created"
 
 
-# loop to create files within Original folder
-1.upto(20) do |i|
+# Loop to create files within Original folder
+1.upto(2) do |i|
   File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
     file.write("#{RandomJson.new.to_json}")
-    puts 
   end
 end
+puts "Files created"
 
 
-# move and rename
+# Move and rename
+
 files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
   files.each_with_index do |file, index|
-    puts "copying file #{index}"
     FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
   end
+puts "Files copied"
 
 
-# open and change in new location 
+# Open and change in new location 
 Dir.glob('Modified/*.json').each do |item|
   File.open(item, "r+") do |file|
     hash = JSON.parse(file.read)
@@ -52,3 +52,4 @@ Dir.glob('Modified/*.json').each do |item|
     file.write(JSON.generate(hash))
   end
 end
+puts "Version of each file updated by 1"
