@@ -5,9 +5,10 @@
 
 require 'json'
 require 'fileutils'
+require 'securerandom'
 
 
-directory_name = ["Original", "Modified"]
+directory_name = %w[Original Modified]
 Dir.mkdir(directory_name[0]) unless File.exists?(directory_name[0])
 Dir.mkdir(directory_name[1]) unless File.exists?(directory_name[1])
 
@@ -31,9 +32,9 @@ class RandomJson
   # defining my own to_s to format in to desired json output
   def to_s
     "{ version: #{self.version}, \n" \
-      "build:  #{self.build},   \n" \
-      "tested: #{self.tested},  \n" \
-      "notes:  #{self.notes}    \n" \
+      "build:  #{self.build},    \n" \
+      "tested: #{self.tested},   \n" \
+      "notes:  #{self.notes}     \n" \
     "}"
   end
 
@@ -43,18 +44,39 @@ class RandomJson
   
   LOWERCASE_LETTERS = ('a'..'z').to_a
   
-  def random_string
-    (5+rand(8)).times.map{ LOWERCASE_LETTERS.sample }.join
-  end
+  
   
   def random_integer
     (1..57).to_a.sample
   end
+  
+  def random_string
+    (5+rand(8)).times.map{ LOWERCASE_LETTERS.sample }.join
+  end
 
 end
 
-File.open("Original/original.json", "w+") do |file| 
-  file.write("#{RandomJson.new.to_s}")
+
+# creating random string for the filename 
+class RandomFileName
+  
+  def filename
+    random_string
+  end   
+
+  protected 
+
+  def random_string
+    @string ||= "#{SecureRandom.urlsafe_base64}"
+  end
+end
+
+
+# loop to create files within /Original folder
+1.upto(20) do |i|
+  File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file| 
+    file.write("#{RandomJson.new.to_s}")
+  end
 end
 
 
