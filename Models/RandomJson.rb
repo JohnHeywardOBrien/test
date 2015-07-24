@@ -1,3 +1,5 @@
+require 'json'
+
 class RandomJson
 
   attr_reader :version, :build, :tested, :notes
@@ -10,12 +12,13 @@ class RandomJson
   end
   
   # defining my own to_s to format in to desired json output
-  def to_s
-    "{ version: #{self.version}, \n" \
-      "build:   #{self.build},   \n" \
-      "tested:  #{self.tested},  \n" \
-      "notes:   #{self.notes}    \n" \
-    "}"
+  def to_json
+    JSON.generate({
+      'version' => self.version,
+      'build'   => self.build,
+      'tested'  => self.tested,
+      'notes'   => self.notes
+    })    
   end
 
   private

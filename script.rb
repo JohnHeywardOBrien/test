@@ -26,11 +26,10 @@ Dir.mkdir(directory_name[1]) unless File.exists?(directory_name[1])
 #####
 
 
-
 # loop to create files within /Original folder
 1.upto(2) do |i|
   File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
-    file.write("#{RandomJson.new.to_s}")
+    file.write("#{RandomJson.new.to_json}")
   end
 end
 
@@ -46,12 +45,10 @@ end
 # open and change 
 # this is where I am having the most troubles :/
 Dir.glob('Modified/*.json').each do |item|
-  json = File.read(item)
-  hash = JSON.parse(json)
-  for version, key in hash 
-    hash[version] += 1 
-  end
-  # hash[:version].to_i = :version + 1
-  hash.to_json
-  File.write("Modified/*.json")
+  file = File.open(item, "r+")
+  puts item
+  hash = JSON.parse(file.read)
+  hash['version'] += 1
+  file.write(JSON.generate(hash))
+  file.close
 end
