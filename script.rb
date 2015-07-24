@@ -26,7 +26,7 @@ puts "Folders created"
 
 
 # Loop to create files within Original folder
-1.upto(2) do |i|
+1.upto(20) do |i|
   File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
     file.write("#{RandomJson.new.to_json}")
   end
