@@ -7,11 +7,13 @@ require 'json'
 require 'fileutils'
 
 
-directory_name = "20jsonfiles"
-Dir.mkdir(directory_name) unless File.exists?(directory_name)
+directory_name = ["Original", "Modified"]
+Dir.mkdir(directory_name[0]) unless File.exists?(directory_name[0])
+Dir.mkdir(directory_name[1]) unless File.exists?(directory_name[1])
 
-# File.new("20files.json",  "w+")
-
+# using method#to_proc for this. I was stumbling around with the best way to do
+# this, and was lead down the road to learing about to_proc
+# %w[Original Modified].each(&Dir.method(:mkdir)) #unless File.exists?(%w[Original Modified])
 
 
 class RandomJson
@@ -48,8 +50,13 @@ class RandomJson
   def random_integer
     (1..57).to_a.sample
   end
-  
 
 end
+
+File.open("Original/original.json", "w+") do |file| 
+  file.write("#{RandomJson.new.to_s}")
+end
+
+
 
 
