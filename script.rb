@@ -48,6 +48,7 @@ Dir.glob('Modified/*.json').each do |item|
   file = File.open(item, "r+")
   puts item
   hash = JSON.parse(file.read)
+  file.rewind
   hash['version'] += 1
   file.write(JSON.generate(hash))
   file.close
