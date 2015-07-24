@@ -12,9 +12,9 @@ also explores moving files around using the Ruby STDLIB**
   * Edit the version field's minor value to be +1
 
 
- **Todos**
- * Make fully exectuable
- * Implement and use a fully test suite(minitest)
- * Not asign random numbers to :version
- * Explore and fix any other edge cases I can find
- * Refactor, refactor, refactor
+**Todos**
+* Make fully exectuable
+* Implement and use a fully test suite(minitest)
+* Not asign random numbers to :version
+* Explore and fix any other edge cases I can find
+* Refactor, refactor, refactor
