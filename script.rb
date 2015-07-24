@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 # built using Ruby 2.2.1
 
 # chmod +x to run this in your local directory
@@ -21,11 +22,6 @@ Dir.mkdir(directory_name[1]) unless File.exists?(directory_name[1])
 # %w[Original Modified].each(&Dir.method(:mkdir)) #unless File.exists?(%w[Original Modified])
 
 
-#####
-# Models lived here
-#####
-
-
 # loop to create files within /Original folder
 1.upto(2) do |i|
   File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
@@ -36,20 +32,18 @@ end
 
 #move and rename
 files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
-files.each_with_index do |file, index|
-  puts "copying file #{index}"
-  FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
-end
+  files.each_with_index do |file, index|
+    puts "copying file #{index}"
+    FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
+  end
 
 
-# open and change 
-# this is where I am having the most troubles :/
+# open and change in new location 
 Dir.glob('Modified/*.json').each do |item|
-  file = File.open(item, "r+")
-  puts item
-  hash = JSON.parse(file.read)
-  file.rewind
-  hash['version'] += 1
-  file.write(JSON.generate(hash))
-  file.close
+  File.open(item, "r+") do |file|
+    hash = JSON.parse(file.read)
+    file.rewind
+    hash['version'] += 1
+    file.write(JSON.generate(hash))
+  end
 end
