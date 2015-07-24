@@ -41,10 +41,7 @@ class RandomJson
   
   private
   
-  
   LOWERCASE_LETTERS = ('a'..'z').to_a
-  
-  
   
   def random_integer
     (1..57).to_a.sample
@@ -60,6 +57,8 @@ end
 # creating random string for the filename 
 class RandomFileName
   
+  NUMBERS = (1..9).to_a
+  
   def filename
     random_string
   end   
@@ -67,18 +66,39 @@ class RandomFileName
   protected 
 
   def random_string
-    @string ||= "#{SecureRandom.urlsafe_base64}"
+    (5+rand(8)).times.map{ NUMBERS.sample }.join
+  end
+end
+
+
+# creates random, protected, GUID
+# will be used upon copy/mv
+class FileNametoGUID
+  
+  def filename
+    random_string
+  end   
+
+  protected 
+
+  def random_string
+    @string ||= "#{SecureRandom.uuid}"
   end
 end
 
 
 # loop to create files within /Original folder
 1.upto(20) do |i|
-  File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file| 
+  File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
     file.write("#{RandomJson.new.to_s}")
   end
 end
 
 
+# move and rename the files
+files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
 
-
+files.each_with_index do |file, index|
+  puts "copying file #{index}"
+  FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
+end
