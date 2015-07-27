@@ -36,7 +36,7 @@ puts "Files created"
 
 # Move and rename
 files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
-  files.each_with_index do |file, index|
+  files.each do |file, index|
     FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
   end
 puts "Files copied"
