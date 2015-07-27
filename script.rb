@@ -26,7 +26,7 @@ puts "Folders created"
 
 
 # Loop to create files within Original folder
-1.upto(20) do |i|
+20.times.each do
   File.open("Original/#{RandomFileName.new.filename.to_s}.json", "w+") do |file|
     file.write("#{RandomJson.new.to_json}")
   end
@@ -35,7 +35,6 @@ puts "Files created"
 
 
 # Move and rename
-
 files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
   files.each_with_index do |file, index|
     FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
