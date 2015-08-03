@@ -8,9 +8,9 @@ require 'json'
 require 'fileutils'
 require 'securerandom'
 
-require './Models/RandomJson'
-require './Models/RandomFileName'
-require './Models/FileNametoGUID'
+require './models/random_json'
+require './models/random_file_name'
+require './models/guid'
 
 
 puts "Starting creation of folders..."
@@ -35,9 +35,11 @@ puts "Files created"
 
 
 # Move and rename
+# Used 'cp' command here instead of 'mv' to show that files were actually
+# Created instead of just made in the new folder
 files = Dir["Original/*.json"].collect{|f| File.expand_path(f)}
   files.each do |file, index|
-    FileUtils.cp file, "Modified/#{FileNametoGUID.new.filename.to_s}.json"
+    FileUtils.cp file, "Modified/#{GUID.new.filename.to_s}.json"
   end
 puts "Files copied"
 
