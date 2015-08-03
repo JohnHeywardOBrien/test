@@ -18,3 +18,4 @@ also explores moving files around using the Ruby STDLIB**
 * Not asign random numbers to :version
 * Explore and fix any other edge cases I can find
 * Refactor, refactor, refactor
+* Extend small classes in to modules
